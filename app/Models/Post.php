@@ -18,6 +18,7 @@ class Post extends Model implements HasMedia
         'user_id',
         'title',
         'description',
+
     ];
 
     public function user(): BelongsTo

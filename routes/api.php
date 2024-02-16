@@ -29,6 +29,7 @@ Route::prefix('auth/user')->group(function (){
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::post('post/{post}',[PostController::class,'update']);
     Route::apiResource('post',PostController::class);
 
 });

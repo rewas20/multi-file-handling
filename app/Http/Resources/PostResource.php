@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\FileResource;
 
 class PostResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class PostResource extends JsonResource
             'description' => $this->description,
             'user_id' => $this->user->id,
             'user_name' => $this->user->name,
+            'files' => $this->getMedia('post_attachments')?FileResource::collection($this->getMedia('post_attachments')):null,
         ];
     }
 }
