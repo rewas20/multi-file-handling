@@ -29,7 +29,7 @@ class PostController extends Controller
             'user_id'=>'required|integer',
             'title'=>'required|string|max:255',
             'description'=>'required|string|max:1000',
-            'files' => 'mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:1000',
+            /* 'files' => 'mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:1000', */
         ]);
 
         $user = User::find($request->user_id);
@@ -92,7 +92,9 @@ class PostController extends Controller
             'user_id'=>'integer',
             'title'=>'string|max:255',
             'description'=>'string|max:1000',
-            'files' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:1000',
+            /* 'files'=>'array', */
+            /* 'files' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:1000', */
+            'files.*' => 'mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048',
         ]);
 
         $user = User::find($request->user_id);
@@ -103,13 +105,10 @@ class PostController extends Controller
             ],404);
         }
 
-        /* dd($request->files); */
-        $postObj->update($request->all());
-
         if ($request->has('files')) {
+
             $postObj->clearMediaCollection('post_attachments');
             $postObj->addMultipleMediaFromRequest(['files']) ->each(function ($file) {
-                $file->toMediaCollection('post_attachments');
                 $file->storingConversionsOnDisk('media')->toMediaCollection('post_attachments','media');
             });
         }

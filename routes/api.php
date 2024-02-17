@@ -29,7 +29,11 @@ Route::prefix('auth/user')->group(function (){
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::get('post',[PostController::class,'index']);
+    Route::get('post/{post}',[PostController::class,'show']);
+    Route::post('post',[PostController::class,'store']);
     Route::post('post/{post}',[PostController::class,'update']);
-    Route::apiResource('post',PostController::class);
+    Route::delete('post/{post}',[PostController::class,'destroy']);
+   /*  Route::apiResource('post',PostController::class); */
 
 });
